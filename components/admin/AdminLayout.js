@@ -93,42 +93,54 @@ export default function AdminLayout({ children }) {
                 <Sidebar>
                     <Logo>Tailored Bridge</Logo>
 
-                    <Box sx={{ mb: 2 }}>
+                    <Box sx={{ mb: 1 }}>
                         <span style={{ fontSize: '0.7rem', color: '#6B7280', paddingLeft: '1rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Overview</span>
                     </Box>
+                    <Link href="/admin" passHref legacyBehavior><NavLink active={isActive('/admin')}>Tableau de Bord</NavLink></Link>
+                    <Link href="/admin/reports" passHref legacyBehavior><NavLink active={isActive('/admin/reports')}>Analyses & BI</NavLink></Link>
 
-                    <Link href="/admin" passHref legacyBehavior><NavLink active={isActive('/admin')}>Dashboard</NavLink></Link>
-                    <Link href="/admin/reports" passHref legacyBehavior><NavLink active={isActive('/admin/reports')}>Rapports</NavLink></Link>
+                    <Box sx={{ mt: 3, mb: 1 }}>
+                        <span style={{ fontSize: '0.7rem', color: '#6B7280', paddingLeft: '1rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Catalogue</span>
+                    </Box>
+                    <Link href="/admin/products" passHref legacyBehavior><NavLink active={isActive('/admin/products')}>Produits</NavLink></Link>
+                    <Link href="/admin/categories" passHref legacyBehavior><NavLink active={isActive('/admin/categories')}>Catégories</NavLink></Link>
+                    <Link href="/admin/brands" passHref legacyBehavior><NavLink active={isActive('/admin/brands')}>Marques</NavLink></Link>
+                    <Link href="/admin/collections" passHref legacyBehavior><NavLink active={isActive('/admin/collections')}>Collections</NavLink></Link>
+                    <Link href="/admin/vendors" passHref legacyBehavior><NavLink active={isActive('/admin/vendors')}>Vendeurs</NavLink></Link>
 
                     <Box sx={{ mt: 3, mb: 1 }}>
                         <span style={{ fontSize: '0.7rem', color: '#6B7280', paddingLeft: '1rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Commerce</span>
                     </Box>
-
                     <Link href="/admin/orders" passHref legacyBehavior><NavLink active={isActive('/admin/orders')}>Commandes</NavLink></Link>
+                    <Link href="/admin/rma" passHref legacyBehavior><NavLink active={isActive('/admin/rma')}>Retours & RMA</NavLink></Link>
                     <Link href="/admin/inventory" passHref legacyBehavior><NavLink active={isActive('/admin/inventory')}>Inventaire</NavLink></Link>
+                    <Link href="/admin/b2b" passHref legacyBehavior><NavLink active={isActive('/admin/b2b')}>B2B & Wholesale</NavLink></Link>
+                    <Link href="/admin/marketing" passHref legacyBehavior><NavLink active={isActive('/admin/marketing')}>Marketing Direct</NavLink></Link>
+                    <Link href="/admin/marketing/promotions" passHref legacyBehavior><NavLink active={isActive('/admin/marketing/promotions')}>Promos & Fidélité</NavLink></Link>
 
                     <Box sx={{ mt: 3, mb: 1 }}>
-                        <span style={{ fontSize: '0.7rem', color: '#6B7280', paddingLeft: '1rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Catalog</span>
+                        <span style={{ fontSize: '0.7rem', color: '#6B7280', paddingLeft: '1rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Logistique</span>
                     </Box>
-
-                    <Link href="/admin/products" passHref legacyBehavior><NavLink active={isActive('/admin/products')}>Produits</NavLink></Link>
-                    <Link href="/admin/categories" passHref legacyBehavior><NavLink active={isActive('/admin/categories')}>Catégories</NavLink></Link>
-                    <Link href="/admin/brands" passHref legacyBehavior><NavLink active={isActive('/admin/brands')}>Marques</NavLink></Link>
-                    <Link href="/admin/vendors" passHref legacyBehavior><NavLink active={isActive('/admin/vendors')}>Vendeurs</NavLink></Link>
-
-                    <Box sx={{ mt: 3, mb: 1 }}>
-                        <span style={{ fontSize: '0.7rem', color: '#6B7280', paddingLeft: '1rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Logistics</span>
-                    </Box>
-
                     <Link href="/admin/warehouses" passHref legacyBehavior><NavLink active={isActive('/admin/warehouses')}>Entrepôts</NavLink></Link>
                     <Link href="/admin/shippers" passHref legacyBehavior><NavLink active={isActive('/admin/shippers')}>Transporteurs</NavLink></Link>
 
                     <Box sx={{ mt: 3, mb: 1 }}>
-                        <span style={{ fontSize: '0.7rem', color: '#6B7280', paddingLeft: '1rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>System</span>
+                        <span style={{ fontSize: '0.7rem', color: '#6B7280', paddingLeft: '1rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>CRM & Logique</span>
                     </Box>
+                    <Link href="/admin/crm/entities" passHref legacyBehavior><NavLink active={isActive('/admin/crm/entities')}>Modèles d'Entités</NavLink></Link>
+                    <Link href="/admin/crm/workflows" passHref legacyBehavior><NavLink active={isActive('/admin/crm/workflows')}>Workflows Engine</NavLink></Link>
+                    <Link href="/admin/crm/rules" passHref legacyBehavior><NavLink active={isActive('/admin/crm/rules')}>Règles Métier</NavLink></Link>
+                    <Link href="/admin/crm/bi" passHref legacyBehavior><NavLink active={isActive('/admin/crm/bi')}>Datasets BI</NavLink></Link>
+                    <Link href="/admin/crm/audit" passHref legacyBehavior><NavLink active={isActive('/admin/crm/audit')}>Audit & Logs</NavLink></Link>
+                    <Link href="/admin/support" passHref legacyBehavior><NavLink active={isActive('/admin/support')}>Support & Tickets</NavLink></Link>
 
-                    <Link href="/admin/users" passHref legacyBehavior><NavLink active={isActive('/admin/users')}>Utilisateurs</NavLink></Link>
-                    <Link href="/admin/cms" passHref legacyBehavior><NavLink active={isActive('/admin/cms')}>CMS Content</NavLink></Link>
+                    <Box sx={{ mt: 3, mb: 1 }}>
+                        <span style={{ fontSize: '0.7rem', color: '#6B7280', paddingLeft: '1rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Système</span>
+                    </Box>
+                    <Link href="/admin/cms" passHref legacyBehavior><NavLink active={isActive('/admin/cms')}>CMS & Contenu</NavLink></Link>
+                    <Link href="/admin/users" passHref legacyBehavior><NavLink active={isActive('/admin/users')}>Accès & Identité</NavLink></Link>
+                    <Link href="/admin/integrations" passHref legacyBehavior><NavLink active={isActive('/admin/integrations')}>Intégrations & Webhooks</NavLink></Link>
+                    <Link href="/admin/platform" passHref legacyBehavior><NavLink active={isActive('/admin/platform')}>Configuration</NavLink></Link>
 
                     <Box sx={{ mt: 'auto', pt: 2, borderTop: '1px solid #333', display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingLeft: '1rem' }}>
                         <Link href="/" passHref legacyBehavior><a style={{ color: '#fff', textDecoration: 'none', fontSize: '0.8rem', textTransform: 'uppercase' }}>← Site</a></Link>

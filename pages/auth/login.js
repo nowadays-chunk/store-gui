@@ -1,101 +1,144 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { useAuth } from '../../context/AuthContext';
-import { styled } from '@mui/system';
+import {
+    Box,
+    Container,
+    TextField,
+    Button,
+    Typography,
+    Paper,
+    Alert,
+    Divider,
+    IconButton,
+} from '@mui/material';
+import { Google as GoogleIcon, Facebook as FacebookIcon, Apple as AppleIcon } from '@mui/icons-material';
 
-const Container = styled('div')({
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    minHeight: '80vh',
-    background: '#f1f5f9'
-});
-
-const FormCard = styled('form')({
-    background: '#fff',
-    padding: '2rem',
-    borderRadius: '16px',
-    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-    width: '100%',
-    maxWidth: '400px',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1rem'
-});
-
-const Title = styled('h1')({
-    fontSize: '1.5rem',
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: '1rem',
-    color: '#0f172a'
-});
-
-const Input = styled('input')({
-    padding: '0.75rem',
-    borderRadius: '8px',
-    border: '1px solid #cbd5e1',
-    outline: 'none',
-    ':focus': {
-        borderColor: '#0f172a'
-    }
-});
-
-const Button = styled('button')({
-    padding: '0.75rem',
-    borderRadius: '8px',
-    background: '#0f172a',
-    color: '#fff',
-    fontWeight: 'bold',
-    cursor: 'pointer',
-    border: 'none',
-    ':hover': {
-        opacity: 0.9
-    }
-});
-
-const ErrorMsg = styled('div')({
-    color: 'red',
-    fontSize: '0.875rem',
-    textAlign: 'center'
-});
-
-export default function Login() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+export default function LoginPage() {
+    const router = useRouter();
     const { login } = useAuth();
+    const [formData, setFormData] = useState({ email: '', password: '' });
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
-        try {
-            await login(email, password);
-        } catch (err) {
-            setError(err.message || 'Login failed');
+        setLoading(true);
+
+        const result = await login(formData);
+
+        if (result.success) {
+            router.push('/');
+        } else {
+            setError(result.error || 'Login failed');
         }
+
+        setLoading(false);
+    };
+
+    const handleOAuthLogin = async (provider) => {
+        // OAuth login implementation
+        console.log(`OAuth login with ${provider}`);
     };
 
     return (
-        <Container>
-            <FormCard onSubmit={handleSubmit}>
-                <Title>Connexion</Title>
-                {error && <ErrorMsg>{error}</ErrorMsg>}
-                <Input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                />
-                <Input
-                    type="password"
-                    placeholder="Mot de passe"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
-                <Button type="submit">Se connecter</Button>
-            </FormCard>
+        <Container maxWidth="sm">
+            <Box sx={{ mt: 8, mb: 4 }}>
+                <Paper elevation={3} sx={{ p: 4 }}>
+                    <Typography variant="h4" component="h1" gutterBottom align="center">
+                        Sign In
+                    </Typography>
+
+                    {error && (
+                        <Alert severity="error" sx={{ mb: 2 }}>
+                            {error}
+                        </Alert>
+                    )}
+
+                    <form onSubmit={handleSubmit}>
+                        <TextField
+                            fullWidth
+                            label="Email"
+                            name="email"
+                            type="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            margin="normal"
+                            required
+                        />
+
+                        <TextField
+                            fullWidth
+                            label="Password"
+                            name="password"
+                            type="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            margin="normal"
+                            required
+                        />
+
+                        <Button
+                            fullWidth
+                            type="submit"
+                            variant="contained"
+                            size="large"
+                            disabled={loading}
+                            sx={{ mt: 3, mb: 2 }}
+                        >
+                            {loading ? 'Signing in...' : 'Sign In'}
+                        </Button>
+                    </form>
+
+                    <Box sx={{ textAlign: 'center', mb: 2 }}>
+                        <Link href="/auth/forgot-password">
+                            <Typography variant="body2" color="primary" sx={{ cursor: 'pointer' }}>
+                                Forgot password?
+                            </Typography>
+                        </Link>
+                    </Box>
+
+                    <Divider sx={{ my: 3 }}>OR</Divider>
+
+                    <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>
+                        <IconButton
+                            onClick={() => handleOAuthLogin('google')}
+                            sx={{ border: '1px solid #ddd' }}
+                        >
+                            <GoogleIcon />
+                        </IconButton>
+                        <IconButton
+                            onClick={() => handleOAuthLogin('facebook')}
+                            sx={{ border: '1px solid #ddd' }}
+                        >
+                            <FacebookIcon />
+                        </IconButton>
+                        <IconButton
+                            onClick={() => handleOAuthLogin('apple')}
+                            sx={{ border: '1px solid #ddd' }}
+                        >
+                            <AppleIcon />
+                        </IconButton>
+                    </Box>
+
+                    <Box sx={{ textAlign: 'center', mt: 3 }}>
+                        <Typography variant="body2">
+                            Don't have an account?{' '}
+                            <Link href="/auth/register">
+                                <Typography component="span" color="primary" sx={{ cursor: 'pointer', fontWeight: 'bold' }}>
+                                    Sign up
+                                </Typography>
+                            </Link>
+                        </Typography>
+                    </Box>
+                </Paper>
+            </Box>
         </Container>
     );
 }

@@ -1,13 +1,34 @@
 const BASE_URL = 'http://localhost:5000/api';
 
+const getAuthToken = () => {
+    if (typeof window !== 'undefined') {
+        return localStorage.getItem('token') || localStorage.getItem('authToken');
+    }
+    return null;
+};
+
+const getHeaders = (headers = {}) => {
+    const token = getAuthToken();
+    const defaultHeaders = {
+        'Content-Type': 'application/json',
+        ...headers
+    };
+    if (token) {
+        defaultHeaders['Authorization'] = `Bearer ${token}`;
+    }
+    return defaultHeaders;
+};
+
 const api = {
     get: async (endpoint) => {
         try {
             const response = await fetch(`${BASE_URL}${endpoint}`, {
+                headers: getHeaders(),
                 cache: 'no-store'
             });
             if (!response.ok) {
-                throw new Error(`API call failed: ${response.statusText}`);
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.message || `API call failed: ${response.statusText}`);
             }
             return await response.json();
         } catch (error) {
@@ -20,14 +41,12 @@ const api = {
         try {
             const response = await fetch(`${BASE_URL}${endpoint}`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: getHeaders(),
                 body: JSON.stringify(data),
                 cache: 'no-store'
             });
             if (!response.ok) {
-                const errorData = await response.json();
+                const errorData = await response.json().catch(() => ({}));
                 throw new Error(errorData.message || `API call failed: ${response.statusText}`);
             }
             return await response.json();
@@ -41,14 +60,12 @@ const api = {
         try {
             const response = await fetch(`${BASE_URL}${endpoint}`, {
                 method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: getHeaders(),
                 body: JSON.stringify(data),
                 cache: 'no-store'
             });
             if (!response.ok) {
-                const errorData = await response.json();
+                const errorData = await response.json().catch(() => ({}));
                 throw new Error(errorData.message || `API call failed: ${response.statusText}`);
             }
             return await response.json();
@@ -62,10 +79,11 @@ const api = {
         try {
             const response = await fetch(`${BASE_URL}${endpoint}`, {
                 method: 'DELETE',
+                headers: getHeaders(),
                 cache: 'no-store'
             });
             if (!response.ok) {
-                const errorData = await response.json();
+                const errorData = await response.json().catch(() => ({}));
                 throw new Error(errorData.message || `API call failed: ${response.statusText}`);
             }
             return await response.json();
